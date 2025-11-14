@@ -117,7 +117,7 @@ map.on('load', async () => {
     .attr('cy', (d) => getCoords(d).cy); // Set the y-position using projected coordinates
     }
     // Initial position update when map loads
-    updatePositions();
+  updatePositions();
 
   // Reposition markers on map interactions
   map.on('move', updatePositions); // Update during map movement
