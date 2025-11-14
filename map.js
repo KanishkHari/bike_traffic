@@ -104,7 +104,6 @@ map.on('load', async () => {
     .attr("fill-opacity", 0.6)
     .attr("stroke", "white")
     .attr("stroke-width", 1)
-    .style("pointer-events", "auto") // override svg pointer-events:none
     .each(function (d) {
       d3.select(this)
         .append("title")
