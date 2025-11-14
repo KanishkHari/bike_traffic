@@ -87,13 +87,12 @@ header#controls em {
 
 #map svg circle,
 .legend > div {
-  --color-departures: steelblue;
-  --color-arrivals: darkorange;
   --color: color-mix(
     in oklch,
     var(--color-departures) calc(100% * var(--departure-ratio)),
     var(--color-arrivals)
   );
+  background-color: var(--color); /* for legend divs */
 }
 
 
