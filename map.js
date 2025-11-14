@@ -47,6 +47,7 @@ map.on('load', async () => {
       'line-opacity': 0.6,
     }
   });
+  const svg = d3.select("#map").select("svg");
   try {
     const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
     // Await JSON fetch
@@ -92,7 +93,7 @@ map.on('load', async () => {
     .domain([0, d3.max(stations, (d) => d.totalTraffic)])
     .range([0, 25]);
 
-  const svg = d3.select("#map").select("svg");
+  // const svg = d3.select("#map").select("svg");
   // circles
   const circles = svg
     .selectAll("circle")
