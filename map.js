@@ -114,12 +114,11 @@ map.on('load', async () => {
     });
   function updatePositions() {
     circles
-    .attr('cx', (d) => getCoords(d).cx) // Set the x-position using projected coordinates
-    .attr('cy', (d) => getCoords(d).cy); // Set the y-position using projected coordinates
-    }
+      .attr('cx', (d) => getCoords(d).cx) // Set the x-position using projected coordinates
+      .attr('cy', (d) => getCoords(d).cy); // Set the y-position using projected coordinates
+  }
     // Initial position update when map loads
   updatePositions();
-
   // Reposition markers on map interactions
   map.on('move', updatePositions); // Update during map movement
   map.on('zoom', updatePositions); // Update during zooming
