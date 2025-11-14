@@ -85,6 +85,36 @@ map.on('load', async () => {
     map.on('resize', updatePositions); // Update on window resize
     map.on('moveend', updatePositions); // Final adjustment after movement ends
 
+    const tripsUrl =
+    "https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv";
+
+    const trips = await d3.csv(tripsUrl);
+    console.log("Trips loaded:", trips.length);
+    // Calculate departures and arrivals//
+
+    const departures = d3.rollup(
+      trips,
+      (v) => v.length,
+      (d) => d.start_station_id,
+    );
+
+    const arrivals = d3.rollup(
+      trips,
+      (v) => v.length,
+      (d) => d.end_station_id,
+    );
+
+    stations = stations.map((station) => {
+    let id = station.short_name;
+    station.arrivals = arrivals.get(id) ?? 0;
+    // TODO departures
+    station.departures = departures.get(id) ?? 0;
+    // TODO totalTraffic
+    station.totalTraffic = station.arrivals + station.departures;
+    return station;
+  });
+  console.log("Stations with traffic:", stations);
+
   } catch (error) {
     console.error('Error loading JSON:', error); // Handle errors
   }
