@@ -103,17 +103,23 @@ map.on('load', async () => {
   console.log("Stations with traffic:", stations);
   // 4.3 - scale for circle radii
   const radiusScale = d3
-  .scaleSqrt()
-  .domain([0, d3.max(stations, (d) => d.totalTraffic)])
-  .range([0, 25]);
-  
-  const svg = d3.select('#map').select('svg');
-  // Append circles to the SVG for each station
+    .scaleSqrt()
+    .domain([0, d3.max(stations, (d) => d.totalTraffic)])
+    .range([0, 25]);
+
+  // ---------------------------------------------
+  // SELECT SVG
+  // ---------------------------------------------
+  const svg = d3.select("#map").select("svg");
+
+  // ---------------------------------------------
+  // CREATE CIRCLES
+  // ---------------------------------------------
   const circles = svg
-    .selectAll('circle')
+    .selectAll("circle")
     .data(stations)
     .enter()
-    .append('circle')
+    .append("circle")
     .attr("r", (d) => radiusScale(d.totalTraffic)) // dynamic radius
     .attr("fill", "steelblue")
     .attr("fill-opacity", 0.6)
@@ -121,12 +127,15 @@ map.on('load', async () => {
     .attr("stroke-width", 1)
     .style("pointer-events", "auto") // override svg pointer-events:none
     .each(function (d) {
-       d3.select(this)
+      // ---------------------------------------------
+      // 4.4 D3 TOOLTIP (<title>)
+      // ---------------------------------------------
+      d3.select(this)
         .append("title")
         .text(
           `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`
         );
-      });
+    });
   } catch (error) {
     console.error('Error loading JSON:', error); // Handle errors
   }
