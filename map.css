@@ -31,3 +31,36 @@ body {
   stroke-width: 1px;
   pointer-events: auto; /* circles allow hover */
 }
+
+header#controls {
+  display: flex;
+  gap: 1em;
+  align-items: start;
+  margin-bottom: 10px;
+  padding: 0 1em;
+}
+
+header#controls label {
+  display: flex;
+  flex-direction: column; /* time & em stacked under label text */
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-left: auto; /* pushes label to the right */
+}
+
+header#controls time {
+  display: block;
+  margin-top: 2px;
+}
+
+header#controls em {
+  display: block;
+  font-style: italic;
+  color: gray;
+  margin-top: 2px;
+}
+
+#time-slider {
+  flex: 1;
+  cursor: pointer;
+}
