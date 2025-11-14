@@ -56,20 +56,7 @@ map.on('load', async () => {
     let stations = jsonData.data.stations;
     console.log('Stations Array:', stations);
 
-    const svg = d3.select('#map').select('svg');
-
-    // Append circles to the SVG for each station
-    const circles = svg
-      .selectAll('circle')
-      .data(stations)
-      .enter()
-      .append('circle')
-      .attr('r', 5) // Radius of the circle
-      .attr('fill', 'steelblue') // Circle fill color
-      .attr('stroke', 'white') // Circle border color
-      .attr('stroke-width', 1) // Circle border thickness
-      .attr('opacity', 0.8); // Circle opacity
-
+    // const svg = d3.select('#map').select('svg');
     function updatePositions() {
       circles
         .attr('cx', (d) => getCoords(d).cx) // Set the x-position using projected coordinates
@@ -114,7 +101,32 @@ map.on('load', async () => {
     return station;
   });
   console.log("Stations with traffic:", stations);
-
+  // 4.3 - scale for circle radii
+  const radiusScale = d3
+  .scaleSqrt()
+  .domain([0, d3.max(stations, (d) => d.totalTraffic)])
+  .range([0, 25]);
+  
+  const svg = d3.select('#map').select('svg');
+  // Append circles to the SVG for each station
+  const circles = svg
+    .selectAll('circle')
+    .data(stations)
+    .enter()
+    .append('circle')
+    .attr("r", (d) => radiusScale(d.totalTraffic)) // dynamic radius
+    .attr("fill", "steelblue")
+    .attr("fill-opacity", 0.6)
+    .attr("stroke", "white")
+    .attr("stroke-width", 1)
+    .style("pointer-events", "auto") // override svg pointer-events:none
+    .each(function (d) {
+       d3.select(this)
+        .append("title")
+        .text(
+          `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`
+        );
+      });
   } catch (error) {
     console.error('Error loading JSON:', error); // Handle errors
   }
