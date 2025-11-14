@@ -6,7 +6,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  align-items: left; /* Center vertically */
 }
 
 #map {
@@ -35,32 +35,32 @@ body {
 header#controls {
   display: flex;
   gap: 1em;
-  align-items: start;
-  margin-bottom: 10px;
+  align-items: baseline;
   padding: 0 1em;
+  width: 100%;
 }
 
 header#controls label {
+  margin-left: auto; /* Push slider + label to the right */
   display: flex;
-  flex-direction: column; /* time & em stacked under label text */
+  flex-direction: flex-end; /* Stack slider, time, (any time) */
   font-size: 0.9rem;
-  font-weight: bold;
-  margin-left: auto; /* pushes label to the right */
 }
 
-header#controls time {
+header#controls time,
+header#controls em {
   display: block;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 header#controls em {
-  display: block;
-  font-style: italic;
   color: gray;
-  margin-top: 2px;
+  font-style: italic;
 }
 
 #time-slider {
-  flex: 1;
+  width: 500px;
   cursor: pointer;
 }
+
+
