@@ -125,7 +125,10 @@ map.on('load', async () => {
   map.on('resize', updatePositions); // Update on window resize
   map.on('moveend', updatePositions); // Final adjustment after movement ends
 
-    
+  const timeSlider = document.getElementById('#time-slider');
+  const selectedTime = document.getElementById('#selected-time');
+  const anyTimeLabel = document.getElementById('#any-time');
+
   } catch (error) {
     console.error('Error loading JSON:', error); // Handle errors
   }
@@ -135,4 +138,23 @@ function getCoords(station) {
   const point = new mapboxgl.LngLat(+station.lon, +station.lat); // Convert lon/lat to Mapbox LngLat
   const { x, y } = map.project(point); // Project to pixel coordinates
   return { cx: x, cy: y }; // Return as object for use in SVG attributes
+}
+
+function formatTime(minutes) {
+  const date = new Date(0, 0, 0, 0, minutes); // Set hours & minutes
+  return date.toLocaleString('en-US', { timeStyle: 'short' }); // Format as HH:MM AM/PM
+}
+
+function updateTimeDisplay() {
+  timeFilter = Number(timeSlider.value); // Get slider value
+
+  if (timeFilter === -1) {
+    selectedTime.textContent = ''; // Clear time display
+    anyTimeLabel.style.display = 'block'; // Show "(any time)"
+  } else {
+    selectedTime.textContent = formatTime(timeFilter); // Display formatted time
+    anyTimeLabel.style.display = 'none'; // Hide "(any time)"
+  }
+
+  // Trigger filtering logic which will be implemented in the next step
 }
