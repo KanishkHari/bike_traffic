@@ -136,9 +136,3 @@ function getCoords(station) {
   const { x, y } = map.project(point); // Project to pixel coordinates
   return { cx: x, cy: y }; // Return as object for use in SVG attributes
 }
-
-
-
-
-
-
