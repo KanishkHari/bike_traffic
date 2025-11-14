@@ -78,6 +78,10 @@ map.on('load', async () => {
     // ============ INITIAL TRAFFIC ============
     let stations = computeStationTraffic(baseStations, trips);
 
+    // Discretize departure ratio → 3 buckets
+    const stationFlow = d3.scaleQuantize()
+      .domain([0, 1])
+      .range([0, 0.5, 1]);
     // ============ RADIUS SCALE ============
     const radiusScale = d3.scaleSqrt()
       .domain([0, d3.max(stations, d => d.totalTraffic)])
@@ -91,7 +95,8 @@ map.on('load', async () => {
       .append("circle")
       .attr("r", d => radiusScale(d.totalTraffic))
       .attr("fill", "steelblue")
-      .attr("fill-opacity", 0.6)
+      .style("--departure-ratio",
+        d => stationFlow(d.departures / d.totalTraffic))
       .attr("stroke", "white")
       .attr("stroke-width", 1)
       .each(function (d) {
@@ -148,18 +153,13 @@ map.on('load', async () => {
         radiusScale.range([3, 50]);
       }
 
-      circles = svg.selectAll("circle")
-        .data(filteredStations, d => d.short_name)
-        .join(
-          enter => enter.append("circle")
-            .attr("fill", "steelblue")
-            .attr("fill-opacity", 0.6)
-            .attr("stroke", "white")
-            .attr("stroke-width", 1),
-          update => update,
-          exit => exit.remove()
-        )
-        .attr("r", d => radiusScale(d.totalTraffic));
+      circles
+      .data(filteredStations, d => d.short_name)
+      .join("circle")
+      .attr("r", d => radiusScale(d.totalTraffic))
+      .style("--departure-ratio", d =>
+        stationFlow(d.departures / d.totalTraffic)
+      );
 
       updatePositions();
     }
