@@ -43,7 +43,8 @@ header#controls {
 header#controls label {
   margin-left: auto; /* Push slider + label to the right */
   display: flex;
-  flex-direction: flex-end; /* Stack slider, time, (any time) */
+  flex-direction: column; /* Stack slider, time, (any time) */
+  align-items: flex-end;
   font-size: 0.9rem;
 }
 
